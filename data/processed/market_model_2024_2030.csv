@@ -1,0 +1,86 @@
+﻿year,category,volume_mln_l,data_type,scenario,annual_growth
+2024,Газированные,2971.311475409836,estimate,Historical,
+2025,Газированные,2900.0,estimate,Historical,
+2026,Газированные,2871.0,forecast,Base,-0.01
+2026,Газированные,2813.0,forecast,Conservative,-0.03
+2026,Газированные,2929.0,forecast,Optimistic,0.01
+2027,Газированные,2842.29,forecast,Base,-0.01
+2027,Газированные,2728.61,forecast,Conservative,-0.03
+2027,Газированные,2958.29,forecast,Optimistic,0.01
+2028,Газированные,2813.8671,forecast,Base,-0.01
+2028,Газированные,2646.7517000000003,forecast,Conservative,-0.03
+2028,Газированные,2987.8729,forecast,Optimistic,0.01
+2029,Газированные,2785.728429,forecast,Base,-0.01
+2029,Газированные,2567.349149,forecast,Conservative,-0.03
+2029,Газированные,3017.751629,forecast,Optimistic,0.01
+2030,Газированные,2757.87114471,forecast,Base,-0.01
+2030,Газированные,2490.32867453,forecast,Conservative,-0.03
+2030,Газированные,3047.9291452899997,forecast,Optimistic,0.01
+2024,Негазированные,833.3333333333333,estimate,Historical,
+2025,Негазированные,900.0,estimate,Historical,
+2026,Негазированные,936.0,forecast,Base,0.04
+2026,Негазированные,909.0,forecast,Conservative,0.01
+2026,Негазированные,963.0,forecast,Optimistic,0.07
+2027,Негазированные,973.44,forecast,Base,0.04
+2027,Негазированные,918.09,forecast,Conservative,0.01
+2027,Негазированные,1030.41,forecast,Optimistic,0.07
+2028,Негазированные,1012.3776000000001,forecast,Base,0.04
+2028,Негазированные,927.2709000000001,forecast,Conservative,0.01
+2028,Негазированные,1102.5387,forecast,Optimistic,0.07
+2029,Негазированные,1052.872704,forecast,Base,0.04
+2029,Негазированные,936.5436090000001,forecast,Conservative,0.01
+2029,Негазированные,1179.716409,forecast,Optimistic,0.07
+2030,Негазированные,1094.9876121600003,forecast,Base,0.04
+2030,Негазированные,945.9090450900001,forecast,Conservative,0.01
+2030,Негазированные,1262.2965576300003,forecast,Optimistic,0.07
+2024,Пивные напитки,1035.0,actual,Historical,
+2025,Пивные напитки,955.36,actual,Historical,
+2026,Пивные напитки,955.36,forecast,Base,0.0
+2026,Пивные напитки,936.2528,forecast,Conservative,-0.02
+2026,Пивные напитки,974.4672,forecast,Optimistic,0.02
+2027,Пивные напитки,955.36,forecast,Base,0.0
+2027,Пивные напитки,917.527744,forecast,Conservative,-0.02
+2027,Пивные напитки,993.9565440000001,forecast,Optimistic,0.02
+2028,Пивные напитки,955.36,forecast,Base,0.0
+2028,Пивные напитки,899.17718912,forecast,Conservative,-0.02
+2028,Пивные напитки,1013.8356748800002,forecast,Optimistic,0.02
+2029,Пивные напитки,955.36,forecast,Base,0.0
+2029,Пивные напитки,881.1936453376,forecast,Conservative,-0.02
+2029,Пивные напитки,1034.1123883776002,forecast,Optimistic,0.02
+2030,Пивные напитки,955.36,forecast,Base,0.0
+2030,Пивные напитки,863.5697724308479,forecast,Conservative,-0.02
+2030,Пивные напитки,1054.7946361451523,forecast,Optimistic,0.02
+2024,Пиво,7267.0,actual,Historical,
+2025,Пиво,6070.58,actual,Historical,
+2026,Пиво,5949.1684,forecast,Base,-0.02
+2026,Пиво,5827.7568,forecast,Conservative,-0.04
+2026,Пиво,6070.58,forecast,Optimistic,0.0
+2027,Пиво,5830.185031999999,forecast,Base,-0.02
+2027,Пиво,5594.646528,forecast,Conservative,-0.04
+2027,Пиво,6070.58,forecast,Optimistic,0.0
+2028,Пиво,5713.581331359999,forecast,Base,-0.02
+2028,Пиво,5370.86066688,forecast,Conservative,-0.04
+2028,Пиво,6070.58,forecast,Optimistic,0.0
+2029,Пиво,5599.309704732799,forecast,Base,-0.02
+2029,Пиво,5156.0262402048,forecast,Conservative,-0.04
+2029,Пиво,6070.58,forecast,Optimistic,0.0
+2030,Пиво,5487.3235106381435,forecast,Base,-0.02
+2030,Пиво,4949.785190596608,forecast,Conservative,-0.04
+2030,Пиво,6070.58,forecast,Optimistic,0.0
+2024,Энергетики,1357.0,actual,Historical,
+2025,Энергетики,1492.92,estimate,Historical,
+2026,Энергетики,1597.4244,forecast,Base,0.07
+2026,Энергетики,1552.6368000000002,forecast,Conservative,0.04
+2026,Энергетики,1642.2120000000002,forecast,Optimistic,0.1
+2027,Энергетики,1709.2441080000003,forecast,Base,0.07
+2027,Энергетики,1614.7422720000002,forecast,Conservative,0.04
+2027,Энергетики,1806.4332000000004,forecast,Optimistic,0.1
+2028,Энергетики,1828.8911955600004,forecast,Base,0.07
+2028,Энергетики,1679.3319628800002,forecast,Conservative,0.04
+2028,Энергетики,1987.0765200000005,forecast,Optimistic,0.1
+2029,Энергетики,1956.9135792492004,forecast,Base,0.07
+2029,Энергетики,1746.5052413952003,forecast,Conservative,0.04
+2029,Энергетики,2185.7841720000006,forecast,Optimistic,0.1
+2030,Энергетики,2093.8975297966444,forecast,Base,0.07
+2030,Энергетики,1816.3654510510084,forecast,Conservative,0.04
+2030,Энергетики,2404.362589200001,forecast,Optimistic,0.1
