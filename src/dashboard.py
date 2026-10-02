@@ -89,7 +89,7 @@ fastest_category = (
 )
 
 
-# Category metrics used in the conclusions
+# Metrics used in the key conclusions
 
 beer_2025 = df_2025[
     df_2025["category"] == "Пиво"
@@ -123,6 +123,7 @@ category_order = [
 ]
 
 # Each category keeps the same color across all charts
+
 category_colors = {
     "Газированные": "#3B82F6",
     "Негазированные": "#EF4444",
@@ -133,7 +134,7 @@ category_colors = {
 
 
 def style_figure(fig):
-    """Apply common visual styling to Plotly figures."""
+    """Apply common styling to Plotly charts."""
 
     fig.update_layout(
         template="plotly_white",
@@ -364,7 +365,7 @@ fig_cagr.update_layout(
 style_figure(fig_cagr)
 
 
-# Comparison of market value in 2025 and 2030
+# Market value comparison
 
 comparison = (
     df[
@@ -465,7 +466,7 @@ for _, row in summary.iterrows():
     """
 
 
-# Convert Plotly charts to HTML
+# Convert charts to HTML
 
 volume_html = pio.to_html(
     fig_volume,
@@ -518,7 +519,7 @@ comparison_html = pio.to_html(
 )
 
 
-# Build dashboard page
+# Build the dashboard page
 
 html = f"""
 <!DOCTYPE html>
@@ -589,8 +590,7 @@ html = f"""
 
     .kpi-grid {{
         display: grid;
-        grid-template-columns:
-            repeat(4, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 18px;
         margin-bottom: 24px;
     }}
@@ -624,51 +624,6 @@ html = f"""
         font-size: 12px;
     }}
 
-    .insights-card {{
-        background: white;
-        border-radius: 14px;
-        border: 1px solid #E6EBF3;
-        padding: 28px 30px;
-        margin-bottom: 32px;
-        box-shadow:
-            0 3px 12px
-            rgba(26, 52, 93, 0.04);
-    }}
-
-    .insights-card h2 {{
-        margin: 0 0 20px 0;
-        font-size: 22px;
-        color: #213A63;
-    }}
-
-    .insight {{
-        padding: 16px 0;
-        border-bottom: 1px solid #EDF0F5;
-    }}
-
-    .insight:first-of-type {{
-        padding-top: 0;
-    }}
-
-    .insight:last-child {{
-        border-bottom: none;
-        padding-bottom: 0;
-    }}
-
-    .insight-title {{
-        font-size: 15px;
-        font-weight: 700;
-        color: #2C476E;
-        margin-bottom: 6px;
-    }}
-
-    .insight-text {{
-        margin: 0;
-        font-size: 14px;
-        line-height: 1.65;
-        color: #66758F;
-    }}
-
     .section-title {{
         margin-top: 38px;
         margin-bottom: 18px;
@@ -686,6 +641,48 @@ html = f"""
         font-size: 14px;
     }}
 
+    .insights-grid {{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+        margin-bottom: 32px;
+    }}
+
+    .insight-card {{
+        background: white;
+        border-radius: 14px;
+        border: 1px solid #E6EBF3;
+        padding: 26px;
+        box-shadow:
+            0 3px 12px
+            rgba(26, 52, 93, 0.04);
+    }}
+
+    .insight-card-wide {{
+        grid-column: 1 / -1;
+    }}
+
+    .insight-number {{
+        font-size: 12px;
+        font-weight: 700;
+        color: #8DA0BC;
+        margin-bottom: 12px;
+    }}
+
+    .insight-title {{
+        font-size: 17px;
+        font-weight: 700;
+        color: #213A63;
+        margin-bottom: 9px;
+    }}
+
+    .insight-text {{
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.65;
+        color: #66758F;
+    }}
+
     .chart-card {{
         background: white;
         border-radius: 14px;
@@ -699,8 +696,7 @@ html = f"""
 
     .two-column {{
         display: grid;
-        grid-template-columns:
-            1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         gap: 20px;
     }}
 
@@ -793,25 +789,34 @@ html = f"""
         }}
 
         .kpi-grid {{
-            grid-template-columns:
-                repeat(2, 1fr);
+            grid-template-columns: repeat(2, 1fr);
         }}
 
         .two-column {{
-            grid-template-columns:
-                1fr;
+            grid-template-columns: 1fr;
         }}
     }}
 
-    @media (max-width: 600px) {{
+    @media (max-width: 700px) {{
 
         .kpi-grid {{
-            grid-template-columns:
-                1fr;
+            grid-template-columns: 1fr;
         }}
 
-        .insights-card {{
-            padding: 22px;
+        .insights-grid {{
+            grid-template-columns: 1fr;
+        }}
+
+        .insight-card-wide {{
+            grid-column: auto;
+        }}
+
+        .header h1 {{
+            font-size: 27px;
+        }}
+
+        .container {{
+            padding: 16px;
         }}
     }}
 
@@ -843,7 +848,7 @@ html = f"""
     </div>
 
 
-    <!-- KPI cards -->
+    <!-- Main indicators -->
 
     <div class="kpi-grid">
 
@@ -904,8 +909,10 @@ html = f"""
                 Наиболее быстрорастущий сегмент
             </div>
 
-            <div class="kpi-value"
-                 style="font-size:22px;">
+            <div
+                class="kpi-value"
+                style="font-size:22px;"
+            >
                 {fastest_category['category']}
             </div>
 
@@ -920,105 +927,124 @@ html = f"""
 
     <!-- Key insights -->
 
-    <div class="insights-card">
+    <div class="section-title">
 
         <h2>
             Ключевые выводы
         </h2>
 
+        <p>
+            Что показывает базовый сценарий развития рынка до 2030 года.
+        </p>
 
-        <div class="insight">
+    </div>
+
+
+    <div class="insights-grid">
+
+        <div class="insight-card">
+
+            <div class="insight-number">
+                01
+            </div>
 
             <div class="insight-title">
-                Натуральный объём рынка почти не меняется
+                Рынок почти не растёт в литрах
             </div>
 
             <p class="insight-text">
-                В базовом сценарии совокупный объём выбранных
-                сегментов меняется на {market_volume_growth:+.1f}%
-                за пять лет. Среднегодовой темп роста составляет
-                {total_market_cagr:+.1f}%.
-                При этом отдельные категории показывают
-                совершенно разную динамику.
+                Совокупный натуральный объём меняется всего на
+                {market_volume_growth:+.1f}% за пять лет.
+                CAGR составляет {total_market_cagr:+.1f}%.
+                То есть общий объём потребления остаётся практически
+                на уровне 2025 года.
             </p>
 
         </div>
 
 
-        <div class="insight">
+        <div class="insight-card">
+
+            <div class="insight-number">
+                02
+            </div>
 
             <div class="insight-title">
-                В денежном выражении рынок растёт заметно быстрее
+                Основной рост происходит в деньгах
             </div>
 
             <p class="insight-text">
-                Стоимостный объём выбранных сегментов увеличивается
-                с {total_value_2025 / 1000:.2f} трлн ₽
-                в 2025 году до
-                {total_value_2030 / 1000:.2f} трлн ₽
-                к 2030 году. Это рост примерно на
-                {market_value_growth:.1f}%.
-                В модели такая динамика связана в первую очередь
-                с ростом средних цен, тогда как общий объём
-                потребления в литрах почти не меняется.
+                Стоимость анализируемого рынка увеличивается с
+                {total_value_2025 / 1000:.2f} до
+                {total_value_2030 / 1000:.2f} трлн ₽,
+                то есть примерно на {market_value_growth:.1f}%.
+                При почти неизменном объёме в литрах основной вклад
+                в этот рост даёт заложенное в модель повышение цен.
             </p>
 
         </div>
 
 
-        <div class="insight">
+        <div class="insight-card">
+
+            <div class="insight-number">
+                03
+            </div>
 
             <div class="insight-title">
                 Энергетики растут быстрее остальных категорий
             </div>
 
             <p class="insight-text">
-                В базовом сценарии объём сегмента увеличивается
-                с {energy_2025['volume_mln_l'] / 1000:.2f}
-                до {energy_2030['volume_mln_l'] / 1000:.2f}
-                млрд литров.
-                CAGR составляет
-                {energy_2025['cagr_pct']:+.1f}%,
-                это самый высокий показатель среди
-                рассматриваемых категорий.
+                В базовом сценарии объём энергетиков растёт с
+                {energy_2025['volume_mln_l'] / 1000:.2f} до
+                {energy_2030['volume_mln_l'] / 1000:.2f} млрд л.
+                CAGR составляет {energy_2025['cagr_pct']:+.1f}%,
+                это самый высокий темп среди выбранных категорий.
             </p>
 
         </div>
 
 
-        <div class="insight">
+        <div class="insight-card">
+
+            <div class="insight-number">
+                04
+            </div>
 
             <div class="insight-title">
-                Пиво остаётся крупнейшей категорией, но объём снижается
+                Пиво остаётся крупнейшим сегментом
             </div>
 
             <p class="insight-text">
-                Пиво занимает наибольшую долю рынка по стоимости,
-                но в натуральном выражении его объём
+                Пиво по-прежнему формирует наибольшую часть рынка
+                по стоимости, но его натуральный объём
                 в базовом сценарии сокращается с
-                {beer_2025['volume_mln_l'] / 1000:.2f}
-                до {beer_2030['volume_mln_l'] / 1000:.2f}
-                млрд литров.
-                CAGR составляет
-                {beer_2025['cagr_pct']:.1f}%.
-                При этом стоимость сегмента продолжает расти
-                из-за заложенной в модель динамики цен.
+                {beer_2025['volume_mln_l'] / 1000:.2f} до
+                {beer_2030['volume_mln_l'] / 1000:.2f} млрд л.
+                CAGR составляет {beer_2025['cagr_pct']:.1f}%.
             </p>
 
         </div>
 
 
-        <div class="insight">
+        <div class="insight-card insight-card-wide">
+
+            <div class="insight-number">
+                05
+            </div>
 
             <div class="insight-title">
-                Внутри рынка постепенно меняется соотношение категорий
+                За стабильным общим объёмом скрывается изменение структуры рынка
             </div>
 
             <p class="insight-text">
+                Категории движутся в разных направлениях.
                 Рост энергетиков и негазированных напитков
                 компенсирует снижение пива и газированных напитков.
-                Поэтому общий объём рынка остаётся почти стабильным,
-                хотя структура рынка постепенно меняется.
+                Поэтому рынок в целом почти не меняется в литрах,
+                хотя его внутренняя структура постепенно смещается
+                в сторону растущих сегментов.
             </p>
 
         </div>
@@ -1052,7 +1078,7 @@ html = f"""
     </div>
 
 
-    <!-- Market structure -->
+    <!-- Segment structure -->
 
     <div class="section-title">
 
@@ -1214,14 +1240,6 @@ print(DATA_PATH)
 print("\nOutput:")
 print(OUTPUT_PATH)
 
-print(
-    f"\nRows: {len(df):,}"
-)
-
-print(
-    f"Categories: {df['category'].nunique()}"
-)
-
-print(
-    f"Years: {df['year'].min()}–{df['year'].max()}"
-)
+print(f"\nRows: {len(df):,}")
+print(f"Categories: {df['category'].nunique()}")
+print(f"Years: {df['year'].min()}–{df['year'].max()}")
