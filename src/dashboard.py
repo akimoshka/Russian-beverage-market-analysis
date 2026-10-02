@@ -1,13 +1,11 @@
 from pathlib import Path
+
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 import plotly.io as pio
 
 
-
-# 1. PATHS
-
+# Paths
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -18,9 +16,7 @@ OUTPUT_PATH = OUTPUT_DIR / "index.html"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-
-# 2. LOAD DATA
-
+# Load data
 
 if not DATA_PATH.exists():
     raise FileNotFoundError(
@@ -57,9 +53,7 @@ if df[required_columns].isna().any().any():
 df["year"] = df["year"].astype(int)
 
 
-
-# 3. BASIC DATASETS
-
+# Main market metrics
 
 df_2025 = df[df["year"] == 2025].copy()
 df_2030 = df[df["year"] == 2030].copy()
@@ -72,6 +66,14 @@ total_value_2030 = df_2030["market_value_bln_rub"].sum()
 
 total_market_cagr = (
     (total_volume_2030 / total_volume_2025) ** (1 / 5) - 1
+) * 100
+
+market_volume_growth = (
+    (total_volume_2030 / total_volume_2025) - 1
+) * 100
+
+market_value_growth = (
+    (total_value_2030 / total_value_2025) - 1
 ) * 100
 
 largest_category_2025 = (
@@ -87,9 +89,26 @@ fastest_category = (
 )
 
 
+# Category metrics used in the conclusions
 
-# 4. COMMON CHART SETTINGS
+beer_2025 = df_2025[
+    df_2025["category"] == "Пиво"
+].iloc[0]
 
+beer_2030 = df_2030[
+    df_2030["category"] == "Пиво"
+].iloc[0]
+
+energy_2025 = df_2025[
+    df_2025["category"] == "Энергетики"
+].iloc[0]
+
+energy_2030 = df_2030[
+    df_2030["category"] == "Энергетики"
+].iloc[0]
+
+
+# Chart settings
 
 FONT_COLOR = "#243B64"
 GRID_COLOR = "#E7ECF4"
@@ -103,9 +122,7 @@ category_order = [
     "Пивные напитки",
 ]
 
-# Corporate-style palette.
-# Keeping the same category color across all charts makes
-# the dashboard easier to read.
+# Each category keeps the same color across all charts
 category_colors = {
     "Газированные": "#3B82F6",
     "Негазированные": "#EF4444",
@@ -168,9 +185,7 @@ def style_figure(fig):
     return fig
 
 
-
-# 5. NATURAL MARKET VOLUME
-
+# Natural market volume
 
 fig_volume = px.line(
     df,
@@ -206,9 +221,7 @@ fig_volume.update_xaxes(
 style_figure(fig_volume)
 
 
-
-# 6. MARKET VALUE
-
+# Market value
 
 fig_value = px.line(
     df,
@@ -244,9 +257,7 @@ fig_value.update_xaxes(
 style_figure(fig_value)
 
 
-
-# 7. MARKET STRUCTURE 2025
-
+# Market structure in 2025
 
 structure_2025 = (
     df_2025
@@ -305,9 +316,7 @@ fig_structure.update_layout(
 )
 
 
-
-# 8. CAGR
-
+# CAGR by category
 
 cagr_data = (
     df[
@@ -355,9 +364,7 @@ fig_cagr.update_layout(
 style_figure(fig_cagr)
 
 
-
-# 9. 2025 VS 2030
-
+# Comparison of market value in 2025 and 2030
 
 comparison = (
     df[
@@ -399,9 +406,7 @@ fig_comparison.update_traces(
 style_figure(fig_comparison)
 
 
-
-# 10. SUMMARY TABLE
-
+# Summary table
 
 summary_2025 = df_2025[
     [
@@ -459,7 +464,8 @@ for _, row in summary.iterrows():
         </tr>
     """
 
-# 11. CONVERT PLOTS TO HTML
+
+# Convert Plotly charts to HTML
 
 volume_html = pio.to_html(
     fig_volume,
@@ -512,7 +518,7 @@ comparison_html = pio.to_html(
 )
 
 
-# 12. HTML TEMPLATE
+# Build dashboard page
 
 html = f"""
 <!DOCTYPE html>
@@ -527,7 +533,7 @@ html = f"""
       content="width=device-width, initial-scale=1.0">
 
 <title>
-Рынок напитков России — аналитический dashboard
+Рынок напитков России | аналитический dashboard
 </title>
 
 <style>
@@ -616,6 +622,51 @@ html = f"""
         margin-top: 8px;
         color: #8793A7;
         font-size: 12px;
+    }}
+
+    .insights-card {{
+        background: white;
+        border-radius: 14px;
+        border: 1px solid #E6EBF3;
+        padding: 28px 30px;
+        margin-bottom: 32px;
+        box-shadow:
+            0 3px 12px
+            rgba(26, 52, 93, 0.04);
+    }}
+
+    .insights-card h2 {{
+        margin: 0 0 20px 0;
+        font-size: 22px;
+        color: #213A63;
+    }}
+
+    .insight {{
+        padding: 16px 0;
+        border-bottom: 1px solid #EDF0F5;
+    }}
+
+    .insight:first-of-type {{
+        padding-top: 0;
+    }}
+
+    .insight:last-child {{
+        border-bottom: none;
+        padding-bottom: 0;
+    }}
+
+    .insight-title {{
+        font-size: 15px;
+        font-weight: 700;
+        color: #2C476E;
+        margin-bottom: 6px;
+    }}
+
+    .insight-text {{
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.65;
+        color: #66758F;
     }}
 
     .section-title {{
@@ -750,7 +801,6 @@ html = f"""
             grid-template-columns:
                 1fr;
         }}
-
     }}
 
     @media (max-width: 600px) {{
@@ -760,6 +810,9 @@ html = f"""
                 1fr;
         }}
 
+        .insights-card {{
+            padding: 22px;
+        }}
     }}
 
 </style>
@@ -790,7 +843,7 @@ html = f"""
     </div>
 
 
-    <!-- KPI CARDS -->
+    <!-- KPI cards -->
 
     <div class="kpi-grid">
 
@@ -801,7 +854,7 @@ html = f"""
             </div>
 
             <div class="kpi-value">
-                {total_value_2025:,.0f} млрд ₽
+                {total_value_2025 / 1000:.2f} трлн ₽
             </div>
 
             <div class="kpi-subtitle">
@@ -818,11 +871,11 @@ html = f"""
             </div>
 
             <div class="kpi-value">
-                {total_value_2030:,.0f} млрд ₽
+                {total_value_2030 / 1000:.2f} трлн ₽
             </div>
 
             <div class="kpi-subtitle">
-                базовый сценарий
+                +{market_value_growth:.1f}% к 2025 году
             </div>
 
         </div>
@@ -865,7 +918,115 @@ html = f"""
     </div>
 
 
-    <!-- MARKET DYNAMICS -->
+    <!-- Key insights -->
+
+    <div class="insights-card">
+
+        <h2>
+            Ключевые выводы
+        </h2>
+
+
+        <div class="insight">
+
+            <div class="insight-title">
+                Натуральный объём рынка почти не меняется
+            </div>
+
+            <p class="insight-text">
+                В базовом сценарии совокупный объём выбранных
+                сегментов меняется на {market_volume_growth:+.1f}%
+                за пять лет. Среднегодовой темп роста составляет
+                {total_market_cagr:+.1f}%.
+                При этом отдельные категории показывают
+                совершенно разную динамику.
+            </p>
+
+        </div>
+
+
+        <div class="insight">
+
+            <div class="insight-title">
+                В денежном выражении рынок растёт заметно быстрее
+            </div>
+
+            <p class="insight-text">
+                Стоимостный объём выбранных сегментов увеличивается
+                с {total_value_2025 / 1000:.2f} трлн ₽
+                в 2025 году до
+                {total_value_2030 / 1000:.2f} трлн ₽
+                к 2030 году. Это рост примерно на
+                {market_value_growth:.1f}%.
+                В модели такая динамика связана в первую очередь
+                с ростом средних цен, тогда как общий объём
+                потребления в литрах почти не меняется.
+            </p>
+
+        </div>
+
+
+        <div class="insight">
+
+            <div class="insight-title">
+                Энергетики растут быстрее остальных категорий
+            </div>
+
+            <p class="insight-text">
+                В базовом сценарии объём сегмента увеличивается
+                с {energy_2025['volume_mln_l'] / 1000:.2f}
+                до {energy_2030['volume_mln_l'] / 1000:.2f}
+                млрд литров.
+                CAGR составляет
+                {energy_2025['cagr_pct']:+.1f}%,
+                это самый высокий показатель среди
+                рассматриваемых категорий.
+            </p>
+
+        </div>
+
+
+        <div class="insight">
+
+            <div class="insight-title">
+                Пиво остаётся крупнейшей категорией, но объём снижается
+            </div>
+
+            <p class="insight-text">
+                Пиво занимает наибольшую долю рынка по стоимости,
+                но в натуральном выражении его объём
+                в базовом сценарии сокращается с
+                {beer_2025['volume_mln_l'] / 1000:.2f}
+                до {beer_2030['volume_mln_l'] / 1000:.2f}
+                млрд литров.
+                CAGR составляет
+                {beer_2025['cagr_pct']:.1f}%.
+                При этом стоимость сегмента продолжает расти
+                из-за заложенной в модель динамики цен.
+            </p>
+
+        </div>
+
+
+        <div class="insight">
+
+            <div class="insight-title">
+                Внутри рынка постепенно меняется соотношение категорий
+            </div>
+
+            <p class="insight-text">
+                Рост энергетиков и негазированных напитков
+                компенсирует снижение пива и газированных напитков.
+                Поэтому общий объём рынка остаётся почти стабильным,
+                хотя структура рынка постепенно меняется.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Market dynamics -->
 
     <div class="section-title">
 
@@ -874,7 +1035,7 @@ html = f"""
         </h2>
 
         <p>
-            Историческая оценка 2025 года
+            Оценка рынка в 2025 году
             и базовый сценарий прогноза до 2030 года.
         </p>
 
@@ -891,7 +1052,7 @@ html = f"""
     </div>
 
 
-    <!-- STRUCTURE -->
+    <!-- Market structure -->
 
     <div class="section-title">
 
@@ -925,7 +1086,7 @@ html = f"""
     </div>
 
 
-    <!-- TABLE -->
+    <!-- Summary table -->
 
     <div class="section-title">
 
@@ -988,9 +1149,7 @@ html = f"""
 
 
             <tbody>
-
                 {table_rows}
-
             </tbody>
 
         </table>
@@ -998,7 +1157,7 @@ html = f"""
     </div>
 
 
-    <!-- METHODOLOGY -->
+    <!-- Methodology -->
 
     <div class="methodology">
 
@@ -1017,7 +1176,7 @@ html = f"""
         В базовом сценарии предполагается ежегодная
         индексация средней цены на 5%.
 
-        CAGR — Compound Annual Growth Rate,
+        CAGR (Compound Annual Growth Rate) показывает
         среднегодовой темп роста натурального объёма
         рынка в 2025–2030 гг.
 
@@ -1025,11 +1184,9 @@ html = f"""
 
 
     <div class="footer">
-
         Аналитический dashboard ·
         рынок напитков России ·
         2025–2030
-
     </div>
 
 </div>
@@ -1040,9 +1197,7 @@ html = f"""
 """
 
 
-
-# 13. SAVE DASHBOARD
-
+# Save the finished dashboard
 
 OUTPUT_PATH.write_text(
     html,
@@ -1053,10 +1208,10 @@ print("=" * 60)
 print("Dashboard successfully generated")
 print("=" * 60)
 
-print(f"\nInput:")
+print("\nInput:")
 print(DATA_PATH)
 
-print(f"\nOutput:")
+print("\nOutput:")
 print(OUTPUT_PATH)
 
 print(
